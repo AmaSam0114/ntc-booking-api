@@ -1,5 +1,6 @@
 import express from 'express';
 import connectDB from './src/config/db.js';
+import cors from 'cors';
 
 import dotenv from 'dotenv';
 dotenv.config();
@@ -19,6 +20,13 @@ const app = express();
 //middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(
+    cors({
+      origin: "*", // Allow all origins or specify allowed domains
+      methods: ["GET", "POST", "PUT", "DELETE"],
+      allowedHeaders: ["Content-Type", "Authorization"],
+    })
+  );
 
 // ping
 app.get('/ping', (req, res) => {
