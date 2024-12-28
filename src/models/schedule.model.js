@@ -19,7 +19,7 @@ const ScheduleSchema = new mongoose.Schema({
         type: Date,
         required: true,
     },
-    availale_seats: {
+    available_seats: {
         type: Number,
         required: true,
     },

@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import seedDatabase from './mock-data';
+import seedDatabase from './mock-data.js';
 
 const connectDB = async () => {
   try {
