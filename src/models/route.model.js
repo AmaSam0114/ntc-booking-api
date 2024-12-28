@@ -17,6 +17,11 @@ const RouteSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  type: {
+    type: String,
+    enum: ["expressway", "normalway"],
+    required: true,
+  },
 });
 
 const Route = mongoose.model("Route", RouteSchema);

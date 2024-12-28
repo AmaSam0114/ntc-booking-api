@@ -18,8 +18,8 @@ const userSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      enum: ["passenger", "admin", "operator"],
-      default: "passenger",
+      enum: ["commuter", "admin", "operator"],
+      default: "commuter",
     },
   },
   {
