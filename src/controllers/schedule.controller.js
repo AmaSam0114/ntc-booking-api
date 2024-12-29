@@ -21,6 +21,30 @@ export const getSchedules = async (req, res) => {
   }
 };
 
+export const getScheduleById = async (req, res) => {
+  try {
+    const schedule = await Schedule.findById(req.params.id)
+      .populate("bus_id")
+      .populate("route_id");
+
+    if (!schedule) {
+      return res.status(404).json({ message: "Schedule not found" });
+    }
+
+    res.status(200).json({
+      start_point: schedule.route_id.start_point,
+      end_point: schedule.route_id.end_point,
+      date_time: schedule.depature_time,
+      bus_type: schedule.route_id.type,
+      available_seats: schedule.available_seats,
+      duration: schedule.route_id.duration,
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+
 export const searchSchedules = async (req, res) => {
   try {
     const { from, to, date } = req.query;
