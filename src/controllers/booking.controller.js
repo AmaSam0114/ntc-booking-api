@@ -1,10 +1,33 @@
 import Booking from "../models/booking.model.js";
 import Bus from "../models/bus.model.js";
 import Route from "../models/route.model.js";
+import Schedule from "../models/schedule.model.js";
 
 export const createBooking = async (req, res) => {
   try {
-    const booking = await Booking.create(req.body);
+    const { schedule_id, seat_number } = req.body;
+
+    const user_id = req.user.id;
+
+    const schedule = await Schedule.findById(schedule_id);
+    if (!schedule) {
+      return res.status(404).json({ message: "Schedule not found" });
+    }
+
+    if (seat_number > schedule.available_seats || seat_number < 1) {
+      return res.status(400).json({ message: "Invalid seat number!" });
+    }
+
+    const booking = await Booking.create({
+      user_id,
+      schedule_id,
+      seat_number,
+      payment_status: "pending",
+    });
+
+    schedule.available_seats -= 1;
+    await schedule.save();
+
     res.status(201).json({ booking });
   } catch (error) {
     res.status(400).json({ message: error.message });
